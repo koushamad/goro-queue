@@ -1,8 +1,8 @@
 package rabbitmq
 
 import (
-	"github.com/koushamad/goro/app/exception/throw"
-	"github.com/koushamad/goro/app/message"
+	"github.com/koushamad/goro-core/app/exception/throw"
+	"github.com/koushamad/goro-core/app/message"
 	"github.com/streadway/amqp"
 )
 

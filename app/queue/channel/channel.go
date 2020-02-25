@@ -10,15 +10,14 @@ import (
 type Chanel struct{}
 
 var (
-	queue *chan message.Message
+	queue chan message.Message
 	once  sync.Once
 )
 
 func Boot() {
 	once.Do(func() {
 		workers := conf.GetInt("queue.workers")
-		Queue := make(chan message.Message)
-		queue = &Queue
+		queue = make(chan message.Message)
 		for i := 1; i <= workers; i++ {
 			go listener()
 		}
@@ -26,16 +25,16 @@ func Boot() {
 }
 
 func Kill() {
-	defer close(*queue)
+	defer close(queue)
 }
 
 func listener() {
 	for {
-		message := <-*queue
+		message := <-queue
 		event.Handler(message)
 	}
 }
 
 func Push(m message.Message) {
-	*queue <- m
+	queue <- m
 }
